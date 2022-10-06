@@ -5,7 +5,7 @@ def main():
 
     while True:
         print("===============================")
-        print("HILL CIPHER")
+        print("VIGENERE CIPHER")
         print("1. Encrypt")
         print("2. Decrypt")
         print("3. Exit")
@@ -29,8 +29,10 @@ def main():
                 print("please choose given choice")
 
 def encryption(key: str, text: str) -> str:
+    # string untuk menyimpan cipher text yang akan direturn
     encrypted = ""
 
+    # fungsi string manipulation untuk symbol
     symbol = {}
     text_list = list(text)
 
@@ -40,6 +42,7 @@ def encryption(key: str, text: str) -> str:
             text_list.remove(text[i])
     text = ''.join(text_list)
 
+    # fungsi string manipulation untuk huruf kapital
     upper = []
     for i in range(len(text)):
         if text[i].isupper():
@@ -48,6 +51,8 @@ def encryption(key: str, text: str) -> str:
     text = text.lower()
     key = key.lower()
 
+
+    # pembentukan kunci vigenere
     i = 0
     while(len(key) != len(text)):
         if(i == len(key)):
@@ -55,14 +60,17 @@ def encryption(key: str, text: str) -> str:
         key += key[i]
         i += 1
 
+    # algoritma shift dengan kunci vigenere
     for i in range(len(text)):
         encrypted += chr((ord(text[i]) - ord('a') +
                          ord(key[i]) - ord('a')) % 26 + ord('a'))
 
+    # fungsi string manipulation untuk huruf kapital
     for i in range(len(upper)):
         encrypted = encrypted[:upper[i]] + \
             encrypted[upper[i]].swapcase() + encrypted[upper[i]+1:]
-
+    
+    # fungsi string manipulation untuk symbol
     for x, y in symbol.items():
         encrypted = encrypted[:x] + y + encrypted[x:]
 
@@ -70,8 +78,10 @@ def encryption(key: str, text: str) -> str:
 
 
 def decryption(key: str, text: str) -> str:
+    # string untuk menyimpan plain text yang akan direturn
     decrypted = ""
 
+    # fungsi string manipulation untuk symbol
     symbol = {}
     text_list = list(text)
 
@@ -81,6 +91,7 @@ def decryption(key: str, text: str) -> str:
             text_list.remove(text[i])
     text = ''.join(text_list)
 
+    # fungsi string manipulation untuk huruf kapital
     upper = []
     for i in range(len(text)):
         if text[i].isupper():
@@ -89,6 +100,7 @@ def decryption(key: str, text: str) -> str:
     text = text.lower()
     key = key.lower()
 
+    # pembentukan kunci vigenere
     i = 0
     while(len(key) != len(text)):
         if(i == len(key)):
@@ -97,14 +109,18 @@ def decryption(key: str, text: str) -> str:
         i += 1
 
     print()
+
+    # algoritma shift dengan kunci vigenere
     for i in range(len(text)):
         decrypted += chr(((ord(text[i]) - ord('a')) -
                          (ord(key[i]) - ord('a'))) % 26 + ord('a'))
 
+    # fungsi string manipulation untuk huruf kapital
     for i in range(len(upper)):
         decrypted = decrypted[:upper[i]] + \
             decrypted[upper[i]].swapcase() + decrypted[upper[i]+1:]
 
+    # fungsi string manipulation untuk symbol
     for x, y in symbol.items():
         decrypted = decrypted[:x] + y + decrypted[x:]
 
